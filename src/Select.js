@@ -3,8 +3,11 @@ import React from "react";
 const Select = ({ items, label, onSelect }) => {
     return (
         <div className="select">
-            <select onChange={e => onSelect(e.target.value)}>
-                <option value={label} disabled selected>
+            <select
+                onChange={e => onSelect(e.target.value)}
+                defaultValue={label}
+            >
+                <option value={label} disabled>
                     {label}
                 </option>
                 {items.length !== 0 &&
