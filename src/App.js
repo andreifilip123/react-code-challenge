@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import RecipeSearch from "./RecipeSearch";
 import RecipeList from "./RecipeList";
 import secrets from "./secrets";
+import RecipeDetails from "./RecipeDetails";
 
 const App = () => {
     const [recipeQuery, setRecipeQuery] = useState("chicken");
@@ -15,6 +16,8 @@ const App = () => {
         healthType: "",
         cuisineType: ""
     });
+    const [selectedRecipe, setSelectedRecipe] = useState();
+    const [modalVisible, setModalVisible] = useState(false);
 
     const handleRecipeQueryChange = e => setRecipeQuery(e.target.value);
 
@@ -68,14 +71,30 @@ const App = () => {
         searchRecipes();
     };
 
+    const onRecipeClick = recipe => {
+        setSelectedRecipe(recipe);
+        setModalVisible(true);
+    };
+
+    const hideModal = () => {
+        setModalVisible(false);
+    };
+
     return (
         <div className="App container">
+            {selectedRecipe && (
+                <RecipeDetails
+                    recipe={selectedRecipe}
+                    visible={modalVisible}
+                    hideModal={hideModal}
+                />
+            )}
             <RecipeSearch
                 onChange={handleRecipeQueryChange}
                 onAdvancedChange={handleAdvancedChange}
                 onClick={searchRecipes}
             />
-            <RecipeList recipes={recipes} />
+            <RecipeList recipes={recipes} onClick={onRecipeClick} />
             {Array.isArray(recipes) && recipes.length !== 0 && (
                 <button className="button" onClick={loadMoreRecipes}>
                     Load more recipes...
