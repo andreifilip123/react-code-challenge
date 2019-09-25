@@ -1,20 +1,26 @@
 import React from "react";
 
-const RecipeDetails = ({ recipe, visible, hideModal }) => {
+const RecipeDetails = ({
+    recipe,
+    visible,
+    hideModal,
+    saveBookmark,
+    removeBookmark
+}) => {
     const { ingredientLines, totalNutrients } = recipe;
     return (
         <div className={"modal " + (visible ? " is-active" : "")}>
             <div className="modal-background"></div>
-            <div class="modal-card">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">{recipe.label}</p>
+            <div className="modal-card">
+                <header className="modal-card-head">
+                    <p className="modal-card-title">{recipe.label}</p>
                     <button
-                        class="delete"
+                        className="delete"
                         aria-label="close"
                         onClick={hideModal}
                     ></button>
                 </header>
-                <section class="modal-card-body">
+                <section className="modal-card-body">
                     {ingredientLines.length !== 0 &&
                         ingredientLines.map((line, index) => (
                             <p key={index}>{line}</p>
@@ -27,9 +33,16 @@ const RecipeDetails = ({ recipe, visible, hideModal }) => {
                         </p>
                     ))}
                 </section>
-                <footer class="modal-card-foot">
-                    <button class="button is-success">Bookmark</button>
-                    <button class="button">Remove bookmark</button>
+                <footer className="modal-card-foot">
+                    <button
+                        onClick={saveBookmark}
+                        className="button is-success"
+                    >
+                        Bookmark
+                    </button>
+                    <button onClick={removeBookmark} className="button">
+                        Remove bookmark
+                    </button>
                 </footer>
             </div>
         </div>

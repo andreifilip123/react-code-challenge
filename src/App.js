@@ -6,6 +6,8 @@ import secrets from "./secrets";
 import RecipeDetails from "./RecipeDetails";
 
 const App = () => {
+    const bookmarks = JSON.parse(localStorage.getItem("recipes"));
+
     const [recipeQuery, setRecipeQuery] = useState("chicken");
     const [recipes, setRecipes] = useState("");
     const [fromTo, setFromTo] = useState(10);
@@ -18,6 +20,7 @@ const App = () => {
     });
     const [selectedRecipe, setSelectedRecipe] = useState();
     const [modalVisible, setModalVisible] = useState(false);
+    const [showBookmarks, setShowBookmarks] = useState(false);
 
     const handleRecipeQueryChange = e => setRecipeQuery(e.target.value);
 
@@ -80,6 +83,35 @@ const App = () => {
         setModalVisible(false);
     };
 
+    const saveBookmark = () => {
+        let currentRecipes = JSON.parse(localStorage.getItem("recipes"));
+        if (Array.isArray(currentRecipes) && currentRecipes.length !== 0) {
+            currentRecipes.push(selectedRecipe);
+        } else {
+            currentRecipes = [selectedRecipe];
+        }
+        localStorage.setItem("recipes", JSON.stringify(currentRecipes));
+    };
+
+    const removeBookmark = () => {
+        let currentRecipes = JSON.parse(localStorage.getItem("recipes"));
+        if (Array.isArray(currentRecipes) && currentRecipes.length !== 0) {
+            if (
+                currentRecipes.findIndex(
+                    item => item.label === selectedRecipe.label
+                ) !== -1
+            ) {
+                currentRecipes.splice(
+                    currentRecipes.findIndex(
+                        item => item.label === selectedRecipe.label
+                    ),
+                    1
+                );
+            }
+        }
+        localStorage.setItem("recipes", JSON.stringify(currentRecipes));
+    };
+
     return (
         <div className="App container">
             {selectedRecipe && (
@@ -87,6 +119,8 @@ const App = () => {
                     recipe={selectedRecipe}
                     visible={modalVisible}
                     hideModal={hideModal}
+                    saveBookmark={saveBookmark}
+                    removeBookmark={removeBookmark}
                 />
             )}
             <RecipeSearch
@@ -94,8 +128,19 @@ const App = () => {
                 onAdvancedChange={handleAdvancedChange}
                 onClick={searchRecipes}
             />
-            <RecipeList recipes={recipes} onClick={onRecipeClick} />
-            {Array.isArray(recipes) && recipes.length !== 0 && (
+            <label class="checkbox">
+                <input
+                    type="checkbox"
+                    onChange={() => setShowBookmarks(prev => !prev)}
+                />
+                Show bookmarks
+            </label>
+
+            <RecipeList
+                recipes={showBookmarks ? bookmarks : recipes}
+                onClick={onRecipeClick}
+            />
+            {!showBookmarks && Array.isArray(recipes) && recipes.length !== 0 && (
                 <button className="button" onClick={loadMoreRecipes}>
                     Load more recipes...
                 </button>
