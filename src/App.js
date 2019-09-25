@@ -54,7 +54,7 @@ const App = () => {
 
                 response.json().then(data => {
                     if (data.hits) {
-                        setRecipes(...data.hits);
+                        setRecipes([...data.hits]);
                     }
                 });
             })
@@ -76,7 +76,7 @@ const App = () => {
                 onClick={searchRecipes}
             />
             <RecipeList recipes={recipes} />
-            {recipes.length !== 0 && (
+            {Array.isArray(recipes) && recipes.length !== 0 && (
                 <button className="button" onClick={loadMoreRecipes}>
                     Load more recipes...
                 </button>
