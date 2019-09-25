@@ -8,7 +8,7 @@ import RecipeDetails from "./RecipeDetails";
 const App = () => {
     const bookmarks = JSON.parse(localStorage.getItem("recipes"));
 
-    const [recipeQuery, setRecipeQuery] = useState("chicken");
+    const [recipeQuery, setRecipeQuery] = useState("");
     const [recipes, setRecipes] = useState("");
     const [fromTo, setFromTo] = useState(10);
     const [options, setOptions] = useState({
@@ -128,7 +128,7 @@ const App = () => {
                 onAdvancedChange={handleAdvancedChange}
                 onClick={searchRecipes}
             />
-            <label class="checkbox">
+            <label className="checkbox">
                 <input
                     type="checkbox"
                     onChange={() => setShowBookmarks(prev => !prev)}
