@@ -4,7 +4,9 @@ const Select = ({ items, label, onSelect }) => {
     return (
         <div className="select">
             <select onChange={e => onSelect(e.target.value)}>
-                <option>{label}</option>
+                <option value={label} disabled selected>
+                    {label}
+                </option>
                 {items.length !== 0 &&
                     items.map((item, index) => {
                         if (item.label) {

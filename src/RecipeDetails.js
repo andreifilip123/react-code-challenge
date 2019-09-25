@@ -28,7 +28,7 @@ const RecipeDetails = ({
                     {Object.keys(totalNutrients).map((key, index) => (
                         <p key={index}>
                             {totalNutrients[key].label}:{" "}
-                            {parseInt(totalNutrients[key].quentity)}{" "}
+                            {parseInt(totalNutrients[key].quantity)}{" "}
                             {totalNutrients[key].unit}
                         </p>
                     ))}
