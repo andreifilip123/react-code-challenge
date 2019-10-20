@@ -10,7 +10,7 @@ const RecipeList = ({ recipes, onClick }) => {
                     recipes.map((item, index) => (
                         <RecipeItem
                             key={index}
-                            recipe={item.recipe}
+                            recipe={item}
                             onClick={onClick}
                         />
                     ))
